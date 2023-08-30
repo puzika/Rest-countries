@@ -1,0 +1,23 @@
+.dark-mode {
+   display: flex;
+   align-items: center;
+   cursor: pointer;  
+   padding: .2rem;
+
+   &__icon {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+
+      & > svg {
+         width: 2.2rem;
+         height: 2.2rem;
+         stroke: var(--black);
+         fill: none;
+      }
+   }
+
+   & > p {
+      font-size: 1.8rem;
+   }
+}

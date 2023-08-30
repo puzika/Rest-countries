@@ -1,0 +1,39 @@
+.search {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   &__field {
+      margin-right: auto;
+   }
+
+   &__filter {
+      position: relative;
+      width: 18rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+   }
+
+   &__regions {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateY(100%);
+      list-style: none;
+   }
+
+   &__region {
+
+   }
+}
+
+.drop-down-icon {
+   padding: .2rem;
+
+   & > svg {
+      width: 2rem;
+      height: 2rem;
+   }
+}
