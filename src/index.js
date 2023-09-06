@@ -6,12 +6,14 @@ const countriesContainer = document.querySelector('.countries');
 const filter = document.querySelector('.search__filter');
 const dropDownIcon = document.querySelector('.drop-down-icon');
 const regions = document.querySelector('.search__regions');
+const darkMode = document.querySelector('.dark-mode');
+const search = document.querySelector('.search__field');
 
 const initialCountries = ['usa', 'canada', 'australia', 'russia', 'uzbekistan', 'germany', 'china', 'japan', 'saudi', 'denmark', 'ireland'];
 
-function renderCountry(data) {
-   console.log(data);
+let mode = 'l';
 
+function renderCountry(data) {
    const markup = `
       <div class="country">
          <img src="${data.flags.png}" alt="" class="country__flag">
@@ -41,6 +43,18 @@ async function getCountry(country) {
    }
 }
 
+async function getRegion(region) {
+   try {
+      const response = await fetch(`https://restcountries.com/v3.1/region/${region}`);
+
+      const data = await response.json();
+
+      data.forEach(country => renderCountry(country));
+   } catch (error) {
+
+   }
+}
+
 initialCountries.forEach(country => getCountry(country));
 
 filter.addEventListener('click', function (e) {
@@ -55,4 +69,26 @@ document.addEventListener('click', function (e) {
 
    dropDownIcon.classList.remove('flipped');
    regions.classList.add('hidden');
-})
+});
+
+search.addEventListener('keyup', function (e) {
+   if (e.key === "Enter") {
+      e.preventDefault();
+
+      countriesContainer.textContent = '';
+
+      getCountry(this.value.trim());
+   }
+});
+
+regions.addEventListener('click', function (e) {
+   const target = e.target;
+
+   const placeholder = filter.querySelector('p');
+
+   placeholder.textContent = target.textContent;
+
+   countriesContainer.textContent = '';
+
+   getRegion(target.textContent);
+});
