@@ -1,0 +1,7 @@
+@mixin inputLight(){
+   background-color: var(--white);
+   border-radius: .8rem;
+   padding: 1rem;
+   border: var(--border-input);
+   outline: none;
+}

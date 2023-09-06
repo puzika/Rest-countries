@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,800;1,6..12,500&display=swap');
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 
 //ABSTRACTS
 
@@ -15,7 +16,10 @@
 @import './layout/header';
 @import './layout/app';
 @import './layout/search';
+@import "./layout/countries";
+
 
 //COMPONENTS
 
 @import "./components/darkmode";
+@import "./components/countryCard";
