@@ -31,17 +31,41 @@ function renderCountry(data) {
    countriesContainer.insertAdjacentHTML('afterbegin', markup);
 }
 
-async function getCountry(country) {
+function timer(seconds) {
+   return new Promise(function (_, reject) {
+      setTimeout(() => {
+         reject(new Error('Request took too long'));
+      }, seconds * 1000);
+   });
+}
+
+async function getCountryData(country) {
    try {
       const response = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+
+      if (!response.ok) throw new Error(`No such country found: ${country}`);
 
       const [data] = await response.json();
 
       renderCountry(data);
    } catch (error) {
-      console.error(error);
+      throw error;
    }
 }
+
+async function getCountry(country) {
+   try {
+      const result = await Promise.race(
+         [
+            getCountryData(country),
+            timer(5),
+         ]
+      );
+   } catch (error) {
+      console.log(error);
+   }
+}
+
 
 async function getRegion(region) {
    try {
@@ -51,7 +75,7 @@ async function getRegion(region) {
 
       data.forEach(country => renderCountry(country));
    } catch (error) {
-
+      console.error(error);
    }
 }
 
@@ -77,7 +101,7 @@ search.addEventListener('keyup', function (e) {
 
       countriesContainer.textContent = '';
 
-      getCountry(this.value.trim());
+      console.log(getCountry(this.value.trim()));
    }
 });
 
@@ -90,5 +114,16 @@ regions.addEventListener('click', function (e) {
 
    countriesContainer.textContent = '';
 
-   getRegion(target.textContent);
+   (async function () {
+      try {
+         await Promise.race(
+            [
+               getRegion(target.textContent),
+               timer(15)
+            ]
+         )
+      } catch (error) {
+         console.log(error);
+      }
+   })();
 });
