@@ -1,6 +1,7 @@
 'use strict';
 
 import './styles/main.scss';
+import flag from './assets/american-flag.png';
 
 const countriesContainer = document.querySelector('.countries');
 const filter = document.querySelector('.search__filter');
@@ -8,6 +9,15 @@ const dropDownIcon = document.querySelector('.drop-down-icon');
 const regions = document.querySelector('.search__regions');
 const darkMode = document.querySelector('.dark-mode');
 const search = document.querySelector('.search__field');
+const detailFlag = document.querySelector('.details__flag');
+const detailName = document.querySelector('.details__name');
+const detailPopulation = document.querySelector('.details__population');
+const detailRegion = document.querySelector('.details__region');
+const detailSubreg = document.querySelector('.details__subreg');
+const detailCapital = document.querySelector('.details__capital');
+const detailDomain = document.querySelector('.details__domain');
+const detailCurrency = document.querySelector('.details__currency');
+const detailLanguage = document.querySelector('.details__language');
 
 const initialCountries = ['usa', 'canada', 'australia', 'russia', 'uzbekistan', 'germany', 'china', 'japan', 'saudi', 'denmark', 'ireland'];
 
@@ -127,3 +137,5 @@ regions.addEventListener('click', function (e) {
       }
    })();
 });
+
+detailFlag.src = flag;
