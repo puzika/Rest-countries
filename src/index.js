@@ -101,7 +101,7 @@ search.addEventListener('keyup', function (e) {
 
       countriesContainer.textContent = '';
 
-      console.log(getCountry(this.value.trim()));
+      getCountry(this.value.trim());
    }
 });
 
