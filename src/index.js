@@ -9,8 +9,10 @@ const dropDownIcon = document.querySelector('.drop-down-icon');
 const regions = document.querySelector('.search__regions');
 const darkMode = document.querySelector('.dark-mode');
 const search = document.querySelector('.search__field');
+const details = document.querySelector('.details');
 const detailFlag = document.querySelector('.details__flag');
 const detailName = document.querySelector('.details__name');
+const detailNativeName = document.querySelector('.details__native-name');
 const detailPopulation = document.querySelector('.details__population');
 const detailRegion = document.querySelector('.details__region');
 const detailSubreg = document.querySelector('.details__subreg');
@@ -18,14 +20,17 @@ const detailCapital = document.querySelector('.details__capital');
 const detailDomain = document.querySelector('.details__domain');
 const detailCurrency = document.querySelector('.details__currency');
 const detailLanguage = document.querySelector('.details__language');
+const buttonReturn = document.querySelector('.btn--return');
 
 const initialCountries = ['usa', 'canada', 'australia', 'russia', 'uzbekistan', 'germany', 'china', 'japan', 'saudi', 'denmark', 'ireland'];
+
+const countriesData = new Map();
 
 let mode = 'l';
 
 function renderCountry(data) {
    const markup = `
-      <div class="country">
+      <div data-name="${data.name.official}" class="country">
          <img src="${data.flags.png}" alt="" class="country__flag">
          
          <article class="country__info">
@@ -57,6 +62,8 @@ async function getCountryData(country) {
 
       const [data] = await response.json();
 
+      countriesData.set(data.name.official, data);
+
       renderCountry(data);
    } catch (error) {
       throw error;
@@ -83,10 +90,40 @@ async function getRegion(region) {
 
       const data = await response.json();
 
-      data.forEach(country => renderCountry(country));
+      data.forEach(country => {
+         countriesData.set(country.name.official, country);
+         renderCountry(country);
+      });
    } catch (error) {
       console.error(error);
    }
+}
+
+function showDetails(data) {
+   details.classList.add('details--show');
+
+   let nativeName;
+   let currency;
+   let language;
+
+   for (const prop in data.name.nativeName) nativeName = data.name.nativeName[prop];
+   for (const prop in data.currencies) currency = data.currencies[prop];
+   for (const prop in data.languages) language = data.languages[prop];
+
+   detailFlag.src = data.flags.png;
+   detailName.textContent = data.name.official;
+   detailNativeName.textContent = nativeName.official;
+   detailPopulation.textContent = data.population;
+   detailRegion.textContent = data.region;
+   detailSubreg.textContent = data.subregion;
+   detailCapital.textContent = data.capital;
+   detailDomain.textContent = data.tld[0];
+   detailCurrency.textContent = currency.name;
+   detailLanguage.textContent = language;
+}
+
+function hideDetails() {
+   details.classList.remove('details--show');
 }
 
 initialCountries.forEach(country => getCountry(country));
@@ -111,6 +148,8 @@ search.addEventListener('keyup', function (e) {
 
       countriesContainer.textContent = '';
 
+      countriesData.clear();
+
       getCountry(this.value.trim());
    }
 });
@@ -123,6 +162,8 @@ regions.addEventListener('click', function (e) {
    placeholder.textContent = target.textContent;
 
    countriesContainer.textContent = '';
+
+   countriesData.clear();
 
    (async function () {
       try {
@@ -137,5 +178,21 @@ regions.addEventListener('click', function (e) {
       }
    })();
 });
+
+countriesContainer.addEventListener('click', function (e) {
+   const target = e.target.closest('.country');
+
+   if (!target) return;
+
+   const name = target.dataset.name;
+
+   const data = countriesData.get(name);
+
+   showDetails(data);
+});
+
+buttonReturn.addEventListener('click', function () {
+   hideDetails();
+})
 
 detailFlag.src = flag;
