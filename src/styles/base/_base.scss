@@ -17,4 +17,14 @@ body {
    font-size: var(--default-font-size);
    background-color: var(--light-background);
    overflow-x: hidden;
+   transition: all .3s;
+
+   &::-webkit-scrollbar {
+      display: none;
+   }
+}
+
+.dark {
+   color: var(--white);
+   background-color: var(--dark-background);
 }

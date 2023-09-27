@@ -1,14 +1,17 @@
 'use strict';
 
 import './styles/main.scss';
-import flag from './assets/american-flag.png';
 
+const body = document.body;
+const header = document.querySelector('.header');
 const countriesContainer = document.querySelector('.countries');
 const filter = document.querySelector('.search__filter');
 const dropDownIcon = document.querySelector('.drop-down-icon');
 const regions = document.querySelector('.search__regions');
 const darkMode = document.querySelector('.dark-mode');
+const darkModeIcon = document.querySelector('.dark-mode__icon');
 const search = document.querySelector('.search__field');
+const searchIcon = document.querySelector('.search__icon');
 const details = document.querySelector('.details');
 const detailFlag = document.querySelector('.details__flag');
 const detailName = document.querySelector('.details__name');
@@ -30,7 +33,7 @@ let mode = 'l';
 
 function renderCountry(data) {
    const markup = `
-      <div data-name="${data.name.official}" class="country">
+      <div data-name="${data.name.official}" class="country ${mode === 'd' ? 'country--dark' : ''}">
          <img src="${data.flags.png}" alt="" class="country__flag">
          
          <article class="country__info">
@@ -148,9 +151,15 @@ search.addEventListener('keyup', function (e) {
 
       countriesContainer.textContent = '';
 
+      const countryName = this.value.trim();
+
+      this.value = '';
+
+      this.blur();
+
       countriesData.clear();
 
-      getCountry(this.value.trim());
+      getCountry(countryName);
    }
 });
 
@@ -195,4 +204,24 @@ buttonReturn.addEventListener('click', function () {
    hideDetails();
 })
 
-detailFlag.src = flag;
+darkMode.addEventListener('click', function (e) {
+   const target = e.target.closest('.dark-mode');
+   const countries = document.querySelectorAll('.country');
+   const buttons = document.querySelectorAll('.btn');
+
+   if (mode === 'd') mode = 'l';
+   else mode = 'd';
+
+   body.classList.toggle('dark');
+   header.classList.toggle('header--dark');
+   darkModeIcon.classList.toggle('dark-mode__icon--dark');
+   search.classList.toggle('search__field--dark');
+   searchIcon.classList.toggle('search__icon--dark');
+   regions.classList.toggle('search__regions--dark');
+   filter.classList.toggle('search__filter--dark');
+   dropDownIcon.classList.toggle('drop-down-icon--dark');
+   details.classList.toggle('details--dark');
+
+   countries.forEach(country => country.classList.toggle('country--dark'));
+   buttons.forEach(button => button.classList.toggle('btn--dark'));
+});

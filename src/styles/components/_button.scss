@@ -4,11 +4,28 @@
    padding: .5rem 2.5rem;
    margin-bottom: 5rem;
    font-size: 1.7rem;
-   background-color: transparent;
+   background-color: var(--white);
    border: none;
    border-radius: .5rem;
    outline: none;
    cursor: pointer;
+   transition: all .3s;
+
+   &--dark {
+      background: var(--dark-elements);
+      color: var(--white);
+   }
+   
+   &--border {
+      font-size: var(--default-font-size);
+      margin-bottom: 0;
+      
+      &:not(:last-child) {
+         margin-right: 1rem;
+         box-shadow: .15rem .15rem .5rem .05rem rgba(0, 0, 0, .15),
+            -.15rem -.15rem .5rem .05rem rgba(0, 0, 0, .15);;
+      }
+   }
 
    & > span {
       margin-right: 1rem;

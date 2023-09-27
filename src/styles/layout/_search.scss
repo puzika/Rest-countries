@@ -3,7 +3,7 @@
    justify-content: space-between;
 
    &__icon {
-      background-color: white;
+      background-color: var(--white);
       display: flex;
       width: 6rem;
       align-items: center;
@@ -15,10 +15,19 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       z-index: 10;
+      transition: all .3s;
 
       & > svg {
          height: 2rem;
          width: 2rem;
+         transition: fill .3s;
+      }
+
+      &--dark {
+         background-color: var(--dark-elements);
+         & > svg {
+            fill: var(--white);
+         }
       }
    }
 
@@ -28,6 +37,20 @@
       margin-right: auto;
       width: 30%;
       font-size: var(--default-font-size);
+      transition: all .3s;
+
+      &::-webkit-input-placeholder {
+         transition: color .3s;
+      }
+
+      &--dark {
+         background-color: var(--dark-elements);
+         color: var(--white);
+
+         &::-webkit-input-placeholder {
+            color: var(--light-input);
+         }
+      }
    }
 
    &__filter {
@@ -39,6 +62,11 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
+      transition: all .3s;
+
+      &--dark {
+         background-color: var(--dark-elements);
+      }
    }
    
    &__regions {
@@ -52,7 +80,11 @@
       border-radius: .5rem;
       padding: 1rem;
       overflow: hidden;
-      transition: all .2s;
+      transition: all .3s;
+
+      &--dark {
+         background-color: var(--dark-elements);
+      }
    }
 
    &__region {
@@ -64,17 +96,18 @@
 .drop-down-icon {
    position: relative;
    right: 1rem;
-   transition: transform .2s;
+   transition: all .2s;
 
    &::before,
    &::after {
       content: '';
       position: absolute;
+      background-color: var(--black);
       top: 50%;
       left: 50%;
       width: 1rem;
       height: .2rem;
-      background-color: var(--black);
+      transition: all .3s;
    }
 
    &::before {
@@ -83,5 +116,12 @@
 
    &::after {
       transform: translate(-50%, -50%) rotate(-45deg);
+   }
+
+   &--dark {
+      &::before,
+      &::after {
+         background-color: var(--white);
+      }
    }
 }
