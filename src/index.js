@@ -23,6 +23,7 @@ const detailCapital = document.querySelector('.details__capital');
 const detailDomain = document.querySelector('.details__domain');
 const detailCurrency = document.querySelector('.details__currency');
 const detailLanguage = document.querySelector('.details__language');
+const detailBorderContainer = document.querySelector('.details__container');
 const buttonReturn = document.querySelector('.btn--return');
 
 const initialCountries = ['usa', 'canada', 'australia', 'russia', 'uzbekistan', 'germany', 'china', 'japan', 'saudi', 'denmark', 'ireland'];
@@ -82,7 +83,7 @@ async function getCountry(country) {
          ]
       );
    } catch (error) {
-      console.log(error);
+      alert(error);
    }
 }
 
@@ -98,11 +99,13 @@ async function getRegion(region) {
          renderCountry(country);
       });
    } catch (error) {
-      console.error(error);
+      alert(error);
    }
 }
 
 function showDetails(data) {
+   console.log(data);
+   detailBorderContainer.textContent = '';
    details.classList.add('details--show');
 
    let nativeName;
@@ -123,6 +126,19 @@ function showDetails(data) {
    detailDomain.textContent = data.tld[0];
    detailCurrency.textContent = currency.name;
    detailLanguage.textContent = language;
+
+   const neighbors = data.borders;
+
+   if (!neighbors) {
+      detailBorderContainer.textContent = 'None';
+      return;
+   }
+
+   const size = Math.min(5, neighbors.length);
+
+   for (let index = 0; index < size; index++) {
+      detailBorderContainer.insertAdjacentHTML('beforeend', `<button class="btn btn--border ${mode === 'l' ? '' : 'btn--dark'}">${neighbors[index]}</button>`);
+   }
 }
 
 function hideDetails() {
@@ -183,7 +199,7 @@ regions.addEventListener('click', function (e) {
             ]
          )
       } catch (error) {
-         console.log(error);
+         alert(error);
       }
    })();
 });
